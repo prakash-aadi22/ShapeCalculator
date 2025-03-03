@@ -2,20 +2,22 @@ let isNightMode = false;
 
 function toggleMode() {
   const body = document.body;
-  const container = document.querySelector(".container");
+  const card = document.querySelector(".card");
   const result = document.querySelector(".result");
   const modeToggle = document.getElementById("modeToggle");
 
   body.classList.toggle("night-mode");
-  container.classList.toggle("night-mode");
-  result.classList.toggle("night-mode");
+  if (card) {
+    card.classList.toggle("night-mode");
+  }
+  if (result) {
+    result.classList.toggle("night-mode");
+  }
 
   if (body.classList.contains("night-mode")) {
-    modeToggle.classList.add("night-mode");
     modeToggle.classList.remove("fa-sun");
     modeToggle.classList.add("fa-moon");
   } else {
-    modeToggle.classList.remove("night-mode");
     modeToggle.classList.remove("fa-moon");
     modeToggle.classList.add("fa-sun");
   }
@@ -38,13 +40,13 @@ function toggleShapeInputs() {
     const shapes =
       shapeType === "2D"
         ? [
-            "Circle",
-            "Triangle",
-            "Square",
-            "Rectangle",
-            "Parallelogram",
-            "Rhombus",
-          ]
+          "Circle",
+          "Triangle",
+          "Square",
+          "Rectangle",
+          "Parallelogram",
+          "Rhombus",
+        ]
         : ["Sphere", "Cylinder", "Cone", "Cube", "Cuboid"];
 
     shapes.forEach((shape) => {
@@ -67,47 +69,47 @@ function showInputs() {
   let html = "";
   switch (shapeName) {
     case "Circle":
-      html = `<label>Radius: <input type="number" id="circleRadius" required></label>`;
+      html = `<label>Radius: <input type="number" id="circleRadius" class="form-control" required></label>`;
       break;
     case "Triangle":
-      html = `<label>Base: <input type="number" id="triangleBase" required></label>
-                     <label>Height: <input type="number" id="triangleHeight" required></label>`;
+      html = `<label>Base: <input type="number" id="triangleBase" class="form-control" required></label>
+              <label>Height: <input type="number" id="triangleHeight" class="form-control" required></label>`;
       break;
     case "Square":
-      html = `<label>Side: <input type="number" id="squareSide" required></label>`;
+      html = `<label>Side: <input type="number" id="squareSide" class="form-control" required></label>`;
       break;
     case "Rectangle":
-      html = `<label>Length: <input type="number" id="rectangleLength" required></label>
-                     <label>Breadth: <input type="number" id="rectangleBreadth" required></label>`;
+      html = `<label>Length: <input type="number" id="rectangleLength" class="form-control" required></label>
+              <label>Breadth: <input type="number" id="rectangleBreadth" class="form-control" required></label>`;
       break;
     case "Parallelogram":
-      html = `<label>Base: <input type="number" id="parallelogramBase" required></label>
-                     <label>Height: <input type="number" id="parallelogramHeight" required></label>
-                     <label>Side: <input type="number" id="parallelogramSide" required></label>`;
+      html = `<label>Base: <input type="number" id="parallelogramBase" class="form-control" required></label>
+              <label>Height: <input type="number" id="parallelogramHeight" class="form-control" required></label>
+              <label>Side: <input type="number" id="parallelogramSide" class="form-control" required></label>`;
       break;
     case "Rhombus":
-      html = `<label>Side: <input type="number" id="rhombusSide" required></label>
-                     <label>Diagonal 1: <input type="number" id="diagonal1" required></label>
-                     <label>Diagonal 2: <input type="number" id="diagonal2" required></label>`;
+      html = `<label>Side: <input type="number" id="rhombusSide" class="form-control" required></label>
+              <label>Diagonal 1: <input type="number" id="diagonal1" class="form-control" required></label>
+              <label>Diagonal 2: <input type="number" id="diagonal2" class="form-control" required></label>`;
       break;
     case "Sphere":
-      html = `<label>Radius: <input type="number" id="sphereRadius" required></label>`;
+      html = `<label>Radius: <input type="number" id="sphereRadius" class="form-control" required></label>`;
       break;
     case "Cylinder":
-      html = `<label>Radius: <input type="number" id="cylinderRadius" required></label>
-                     <label>Height: <input type="number" id="cylinderHeight" required></label>`;
+      html = `<label>Radius: <input type="number" id="cylinderRadius" class="form-control" required></label>
+              <label>Height: <input type="number" id="cylinderHeight" class="form-control" required></label>`;
       break;
     case "Cone":
-      html = `<label>Radius: <input type="number" id="coneRadius" required></label>
-                     <label>Height: <input type="number" id="coneHeight" required></label>`;
+      html = `<label>Radius: <input type="number" id="coneRadius" class="form-control" required></label>
+              <label>Height: <input type="number" id="coneHeight" class="form-control" required></label>`;
       break;
     case "Cube":
-      html = `<label>Side: <input type="number" id="cubeSide" required></label>`;
+      html = `<label>Side: <input type="number" id="cubeSide" class="form-control" required></label>`;
       break;
     case "Cuboid":
-      html = `<label>Length: <input type="number" id="cuboidLength" required></label>
-                     <label>Breadth: <input type="number" id="cuboidBreadth" required></label>
-                     <label>Height: <input type="number" id="cuboidHeight" required></label>`;
+      html = `<label>Length: <input type="number" id="cuboidLength" class="form-control" required></label>
+              <label>Breadth: <input type="number" id="cuboidBreadth" class="form-control" required></label>
+              <label>Height: <input type="number" id="cuboidHeight" class="form-control" required></label>`;
       break;
     default:
       html = "";
@@ -127,9 +129,8 @@ function calculate() {
         const circleRadius = parseFloat(
           document.getElementById("circleRadius").value
         );
-        result = `Circumference: ${2 * Math.PI * circleRadius} units<br>Area: ${
-          Math.PI * Math.pow(circleRadius, 2)
-        } square units`;
+        result = `Circumference: ${2 * Math.PI * circleRadius} units<br>Area: ${Math.PI * Math.pow(circleRadius, 2)
+          } square units`;
         break;
       case "Triangle":
         const triangleBase = parseFloat(
@@ -138,17 +139,15 @@ function calculate() {
         const triangleHeight = parseFloat(
           document.getElementById("triangleHeight").value
         );
-        result = `Perimeter: ${3 * triangleBase} units<br>Area: ${
-          (triangleBase * triangleHeight) / 2
-        } square units`;
+        result = `Perimeter: ${3 * triangleBase} units<br>Area: ${(triangleBase * triangleHeight) / 2
+          } square units`;
         break;
       case "Square":
         const squareSide = parseFloat(
           document.getElementById("squareSide").value
         );
-        result = `Perimeter: ${4 * squareSide} units<br>Area: ${
-          squareSide * squareSide
-        } square units`;
+        result = `Perimeter: ${4 * squareSide} units<br>Area: ${squareSide * squareSide
+          } square units`;
         break;
       case "Rectangle":
         const rectangleLength = parseFloat(
@@ -157,9 +156,8 @@ function calculate() {
         const rectangleBreadth = parseFloat(
           document.getElementById("rectangleBreadth").value
         );
-        result = `Perimeter: ${
-          2 * (rectangleLength + rectangleBreadth)
-        } units<br>Area: ${rectangleLength * rectangleBreadth} square units`;
+        result = `Perimeter: ${2 * (rectangleLength + rectangleBreadth)
+          } units<br>Area: ${rectangleLength * rectangleBreadth} square units`;
         break;
       case "Parallelogram":
         const parallelogramBase = parseFloat(
@@ -171,11 +169,9 @@ function calculate() {
         const parallelogramSide = parseFloat(
           document.getElementById("parallelogramSide").value
         );
-        result = `Perimeter: ${
-          2 * (parallelogramBase + parallelogramSide)
-        } units<br>Area: ${
-          parallelogramBase * parallelogramHeight
-        } square units`;
+        result = `Perimeter: ${2 * (parallelogramBase + parallelogramSide)
+          } units<br>Area: ${parallelogramBase * parallelogramHeight
+          } square units`;
         break;
       case "Rhombus":
         const rhombusSide = parseFloat(
@@ -187,19 +183,16 @@ function calculate() {
         const diagonal2 = parseFloat(
           document.getElementById("diagonal2").value
         );
-        result = `Perimeter: ${4 * rhombusSide} units<br>Area: ${
-          (diagonal1 * diagonal2) / 2
-        } square units`;
+        result = `Perimeter: ${4 * rhombusSide} units<br>Area: ${(diagonal1 * diagonal2) / 2
+          } square units`;
         break;
       case "Sphere":
         const sphereRadius = parseFloat(
           document.getElementById("sphereRadius").value
         );
-        result = `Surface Area: ${
-          4 * Math.PI * sphereRadius * sphereRadius
-        } square units<br>Volume: ${
-          (4 / 3) * Math.PI * Math.pow(sphereRadius, 3)
-        } cubic units`;
+        result = `Surface Area: ${4 * Math.PI * sphereRadius * sphereRadius
+          } square units<br>Volume: ${(4 / 3) * Math.PI * Math.pow(sphereRadius, 3)
+          } cubic units`;
         break;
       case "Cylinder":
         const cylinderRadius = parseFloat(
@@ -208,11 +201,9 @@ function calculate() {
         const cylinderHeight = parseFloat(
           document.getElementById("cylinderHeight").value
         );
-        result = `Surface Area: ${
-          2 * Math.PI * cylinderRadius * (cylinderRadius + cylinderHeight)
-        } square units<br>Volume: ${
-          Math.PI * cylinderRadius * cylinderRadius * cylinderHeight
-        } cubic units`;
+        result = `Surface Area: ${2 * Math.PI * cylinderRadius * (cylinderRadius + cylinderHeight)
+          } square units<br>Volume: ${Math.PI * cylinderRadius * cylinderRadius * cylinderHeight
+          } cubic units`;
         break;
       case "Cone":
         const coneRadius = parseFloat(
@@ -238,9 +229,8 @@ function calculate() {
         break;
       case "Cube":
         const cubeSide = parseFloat(document.getElementById("cubeSide").value);
-        result = `Surface Area: ${
-          6 * cubeSide * cubeSide
-        } square units<br>Volume: ${Math.pow(cubeSide, 3)} cubic units`;
+        result = `Surface Area: ${6 * cubeSide * cubeSide
+          } square units<br>Volume: ${Math.pow(cubeSide, 3)} cubic units`;
         break;
       case "Cuboid":
         const cuboidLength = parseFloat(
@@ -252,14 +242,12 @@ function calculate() {
         const cuboidHeight = parseFloat(
           document.getElementById("cuboidHeight").value
         );
-        result = `Surface Area: ${
-          2 *
+        result = `Surface Area: ${2 *
           (cuboidLength * cuboidBreadth +
             cuboidLength * cuboidHeight +
             cuboidBreadth * cuboidHeight)
-        } square units<br>Volume: ${
-          cuboidLength * cuboidBreadth * cuboidHeight
-        } cubic units`;
+          } square units<br>Volume: ${cuboidLength * cuboidBreadth * cuboidHeight
+          } cubic units`;
         break;
       default:
         result = "Please select a shape.";

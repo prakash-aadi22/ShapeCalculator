@@ -1,217 +1,78 @@
-/* body {
-  font-family: Arial, sans-serif;
-  background-color: #ffffff;
-  margin: 0;
-  padding: 20px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-h1 {
-  text-align: center;
-}
-
-label {
-  display: block;
-  margin: 10px 0 5px;
-}
-
-select,
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0 20px;
-}
-
-button {
-  padding: 10px;
-  width: 100%;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.result {
-  margin-top: 20px;
-  background-color: #e9ecef;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-#inputsContainer label,
-#inputsContainer input {
-  width: 100%;
-  margin: 5px 0 20px;
-}
-
-#inputsContainer input {
-  box-sizing: border-box;
-}
-
-body.night-mode {
-  background-color: #121212;
-  color: white;
-}
-
-.container.night-mode {
-  background: #121212;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-.result.night-mode {
-  background-color: #555;
-}
-
-#modeToggle {
-  display: block;
-  margin: 10px auto;
-  color: #ffcc00;
-  transition: color 0.3s;
-  text-align: center;
-}
-
-#modeToggle.night-mode {
-  display: block;
-  margin: 10px auto;
-  color: #ffffff;
-  transition: color 0.3s;
-  text-align: center;
-}
-
-body.night-mode {
-  color: #fff;
-}
-
-i {
-  font-size: 24px;
-  cursor: pointer;
-}
-
-#modeToggle:hover {
-  color: #000000;
-}
-#modeToggle.night-mode:hover {
-  color: #ffcc00;
-} */
-
+/* Base Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #ffffff;
+  background-color: #f8f9fa;
   margin: 0;
-  padding: 20px;
+  padding: 0;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
 h1 {
-  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
 }
 
 label {
   display: block;
-  margin: 10px 0 5px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
-select,
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0 20px;
-}
-
-button {
-  padding: 10px;
-  width: 100%;
-  border: none;
+input,
+select {
   border-radius: 5px;
-  cursor: pointer;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-#shapeInputs{
-margin-bottom: 5px;
+/* Card & Result */
+.card {
+  border: none;
+  border-radius: 10px;
 }
 
 .result {
-  margin-top: 20px;
   background-color: #e9ecef;
-  padding: 10px;
+  padding: 1rem;
   border-radius: 5px;
 }
 
-#calculateButton{
-  margin-top: 20px;
-}
-
-#inputsContainer label,
-#inputsContainer input {
-  width: 100%;
-}
-
-#inputsContainer input {
-  box-sizing: border-box;
-}
-
-body.night-mode {
-  background-color: #121212;
-  color: white;
-}
-
-.container.night-mode {
-  background: #121212;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-.result.night-mode {
-  background-color: #555;
-}
-
+/* Mode Toggle Icon */
 #modeToggle {
-  display: block;
-  margin: 10px auto;
+  font-size: 1.5rem;
+  cursor: pointer;
   color: #ffcc00;
   transition: color 0.3s;
-  text-align: center;
-}
-
-#modeToggle.night-mode {
-  display: block;
-  margin: 10px auto;
-  color: #ffffff;
-  transition: color 0.3s;
-  text-align: center;
-}
-
-body.night-mode {
-  color: #fff;
-}
-
-i {
-  font-size: 24px;
-  cursor: pointer;
 }
 
 #modeToggle:hover {
-  color: #000000;
+  color: #ffa500;
 }
 
-#modeToggle.night-mode:hover {
-  color: #ffcc00;
+/* Dark Mode Styles */
+body.night-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.card.night-mode {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.result.night-mode {
+  background-color: #333333;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  input,
+  select {
+    font-size: 0.9rem;
+  }
 }
