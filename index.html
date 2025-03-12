@@ -8,52 +8,817 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-bg: #f8f9fa;
+            --dark-bg: #121212;
+            --light-card: #ffffff;
+            --dark-card: #1e1e1e;
+            --light-text: #212529;
+            --dark-text: #f8f9fa;
+            --light-result: #e9ecef;
+            --dark-result: #333333;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+            margin: 0;
+            padding: 0;
+            transition: var(--transition);
+            min-height: 100vh;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        body.night-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            background-image: linear-gradient(135deg, #0a0a0a 0%, #2d3436 100%);
+        }
+
+        .container {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .calculator-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: var(--transition);
+            background-color: var(--light-card);
+            transform: translateY(0);
+        }
+
+        .calculator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-bottom: none;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 80%);
+            transform: rotate(30deg);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ced4da;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+            border-color: var(--primary-color);
+        }
+
+        .night-mode .form-control {
+            background-color: rgba(30, 30, 30, 0.9);
+            border-color: #444;
+            color: var(--dark-text);
+        }
+
+        .night-mode .calculator-card {
+            background-color: var(--dark-card);
+        }
+
+        .btn-calculate {
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-calculate:focus {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.5);
+        }
+
+        .btn-calculate::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%);
+            transition: var(--transition);
+        }
+
+        .btn-calculate:hover::after {
+            transform: translateX(100%);
+        }
+
+        .result {
+            background-color: var(--light-result);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .night-mode .result {
+            background-color: var(--dark-result);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .night-mode .result-title {
+            color: var(--accent-color);
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .night-mode .result-item {
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .result-value {
+            font-weight: 600;
+        }
+
+        .shape-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .mode-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .mode-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-group-text {
+            border-radius: 10px 0 0 10px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .night-mode .input-group-text {
+            background-color: var(--secondary-color);
+        }
+
+        .dimension-input {
+            border-radius: 0 10px 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .card-header,
+            .card-body {
+                padding: 1.2rem;
+            }
+
+            .calculator-card:hover {
+                transform: none;
+            }
+        }
+
+        .shape-selection {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .shape-option {
+            flex: 1 0 calc(33.333% - 1rem);
+            min-width: 100px;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: var(--transition);
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .shape-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .shape-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .night-mode .shape-option {
+            border-color: #444;
+        }
+
+        .night-mode .shape-option.selected {
+            border-color: var(--accent-color);
+            background-color: rgba(72, 149, 239, 0.2);
+        }
+
+        .shape-icon-large {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .shape-img-large {
+            height: 2.5rem;
+            margin-top: 0.1rem;
+            margin-bottom: 0.5rem;
+            object-fit: contain;
+        }
+
+        .shape-name {
+            font-weight: 600;
+        }
+
+        /* Animations */
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Custom pop-up styling */
+        .popup-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px 25px;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container my-5">
-        <div class="card shadow-lg">
+    <div class="container">
+        <div class="calculator-card card shadow-lg">
+            <div class="card-header text-center">
+                <h1>Area & Perimeter Calculator</h1>
+                <p class="subtitle">Calculate dimensions for 2D and 3D shapes</p>
+                <div class="mode-toggle" onclick="toggleMode()" title="Toggle dark/light mode">
+                    <i id="modeToggle" class="fas fa-moon"></i>
+                </div>
+            </div>
             <div class="card-body">
-                <div class="text-center mb-4">
-                    <h1 class="mb-3">Area and Perimeter Calculator</h1>
-                    <i id="modeToggle" class="fas fa-sun" onclick="toggleMode()" title="Toggle dark/light mode"></i>
-                </div>
-
                 <div class="form-group">
-                    <label for="shapeType">Choose Shape Type:</label>
-                    <select id="shapeType" class="form-control" onchange="toggleShapeInputs()">
-                        <option value="">Select</option>
-                        <option value="2D">2D Shapes</option>
-                        <option value="3D">3D Shapes</option>
-                    </select>
+                    <label for="shapeType">Choose Dimension:</label>
+                    <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+                        <label class="two-d-label btn btn-outline-primary active">
+                            <input type="radio" name="shapeType" value="2D" checked onchange="toggleShapeInputs()"> 2D
+                            Shapes
+                        </label>
+                        <label class="three-d-label btn btn-outline-primary">
+                            <input type="radio" name="shapeType" value="3D" onchange="toggleShapeInputs()"> 3D Shapes
+                        </label>
+                    </div>
                 </div>
 
-                <div class="form-group" id="shapeInputs" style="display: none;">
-                    <label for="shapeName">Choose Shape:</label>
-                    <select id="shapeName" class="form-control" onchange="showInputs()">
-                        <option value="">Select</option>
-                    </select>
+                <div id="shapes2D" class="shape-selection">
+                    <div class="shape-option" onclick="selectShape(this, 'Circle')">
+                        <!-- <i class="fas fa-circle shape-icon-large"></i> -->
+                        <img src="./img/circle.png" class="shape-img-large" alt="Circle">
+                        <span class="shape-name">Circle</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Square')">
+                        <!-- <i class="fas fa-square shape-icon-large"></i> -->
+                        <img src="./img/square.png" class="shape-img-large" alt="Square">
+                        <span class="shape-name">Square</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Rectangle')">
+                        <!-- <i class="fas fa-rectangle-wide shape-icon-large"></i> -->
+                        <!-- <i class="fas fa-border-all shape-icon-large"></i> -->
+                        <img src="./img/rectangle.png" class="shape-img-large" alt="Rectangle">
+                        <span class="shape-name">Rectangle</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Triangle')">
+                        <!-- <i class="fas fa-triangle shape-icon-large"></i> -->
+                        <!-- <i class="fas fa-play shape-icon-large" style="transform: rotate(270deg);"></i> -->
+                        <img src="./img/triangle.png" class="shape-img-large" alt="Triangle">
+                        <span class="shape-name">Triangle</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Trapezoid')">
+                        <!-- <i class="fas fa-draw-polygon shape-icon-large"></i> -->
+                        <img src="./img/trapezoid.png" class="shape-img-large" alt="Trapezoid">
+                        <span class="shape-name">Trapezoid</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Rhombus')">
+                        <!-- <i class="fas fa-diamond shape-icon-large"></i> -->
+                        <img src="./img/rhombus.png" class="shape-img-large" alt="Rhombus">
+                        <span class="shape-name">Rhombus</span>
+                    </div>
                 </div>
 
-                <div id="inputsContainer" class="mb-3" style="display: none;"></div>
+                <div id="shapes3D" class="shape-selection" style="display: none;">
+                    <div class="shape-option" onclick="selectShape(this, 'Cube')">
+                        <!-- <i class="fas fa-cube shape-icon-large"></i> -->
+                        <img src="./img/cube.png" class="shape-img-large" alt="Cube">
+                        <span class="shape-name">Cube</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Sphere')">
+                        <!-- <i class="fas fa-globe shape-icon-large"></i> -->
+                        <img src="./img/globe.png" class="shape-img-large" alt="Sphere">
+                        <span class="shape-name">Sphere</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Cylinder')">
+                        <!-- <i class="fas fa-database shape-icon-large"></i> -->
+                        <img src="./img/cylinder.png" class="shape-img-large" alt="Cylinder">
+                        <span class="shape-name">Cylinder</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Cone')">
+                        <!-- <i class="fas fa-filter shape-icon-large"></i> -->
+                        <img src="./img/cone.png" class="shape-img-large" alt="Cone">
+                        <span class="shape-name">Cone</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Cuboid')">
+                        <!-- <i class="fas fa-box shape-icon-large"></i> -->
+                        <img src="./img/cuboid.png" class="shape-img-large" alt="Cuboid">
+                        <span class="shape-name">Cuboid</span>
+                    </div>
+                    <div class="shape-option" onclick="selectShape(this, 'Pyramid')">
+                        <!-- <i class="fas fa-monument shape-icon-large"></i> -->
+                        <img src="./img/pyramid-chart.png" class="shape-img-large" alt="Pyramid">
+                        <span class="shape-name">Pyramid</span>
+                    </div>
+                </div>
 
-                <button type="button" class="btn btn-outline-primary btn-block" id="calculateButton" onclick="calculate()">
-                    Calculate
+                <div id="inputsContainer" class="mt-4 mb-4" style="display: none;"></div>
+
+                <button type="button" id="calculateButton" class="btn btn-calculate btn-block pulse"
+                    onclick="calculate()" style="display: none;">
+                    <i class="fas fa-calculator mr-2"></i>Calculate
                 </button>
 
-                <div id="result" class="result mt-3" style="display: none;"></div>
+                <div id="result" class="result mt-4" style="display: none;"></div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Function to display a custom pop-up message
+        function showPopup(message) {
+            const popup = document.createElement('div');
+            popup.className = 'popup-message';
+            popup.textContent = message;
+            document.body.appendChild(popup);
+            // Fade out after 3 seconds
+            setTimeout(() => {
+                popup.style.opacity = '0';
+            }, 3000);
+            // Remove from DOM after fade out
+            setTimeout(() => {
+                popup.remove();
+            }, 3500);
+        }
+
+        // Shape configurations
+        const shapes = {
+            '2D': {
+                'Circle': [
+                    { name: 'radius', label: 'Radius', unit: 'units', icon: 'ruler' }
+                ],
+                'Square': [
+                    { name: 'side', label: 'Side Length', unit: 'units', icon: 'arrows-alt-h' }
+                ],
+                'Rectangle': [
+                    { name: 'length', label: 'Length', unit: 'units', icon: 'arrows-alt-h' },
+                    { name: 'width', label: 'Width', unit: 'units', icon: 'arrows-alt-v' }
+                ],
+                'Triangle': [
+                    { name: 'side1', label: 'Side 1', unit: 'units', icon: 'ruler-horizontal' },
+                    { name: 'side2', label: 'Side 2', unit: 'units', icon: 'ruler-horizontal' },
+                    { name: 'side3', label: 'Side 3', unit: 'units', icon: 'ruler-horizontal' }
+                ],
+                'Trapezoid': [
+                    { name: 'base1', label: 'Base 1', unit: 'units', icon: 'arrows-alt-h' },
+                    { name: 'base2', label: 'Base 2', unit: 'units', icon: 'arrows-alt-h' },
+                    { name: 'height', label: 'Height', unit: 'units', icon: 'arrows-alt-v' },
+                    { name: 'side1', label: 'Side 1', unit: 'units', icon: 'ruler-horizontal' },
+                    { name: 'side2', label: 'Side 2', unit: 'units', icon: 'ruler-horizontal' }
+                ],
+                'Rhombus': [
+                    { name: 'side', label: 'Side Length', unit: 'units', icon: 'ruler-horizontal' },
+                    { name: 'diagonal1', label: 'Diagonal 1', unit: 'units', icon: 'slash' },
+                    { name: 'diagonal2', label: 'Diagonal 2', unit: 'units', icon: 'slash' }
+                ]
+            },
+            '3D': {
+                'Cube': [
+                    { name: 'side', label: 'Side Length', unit: 'units', icon: 'arrows-alt' }
+                ],
+                'Sphere': [
+                    { name: 'radius', label: 'Radius', unit: 'units', icon: 'ruler' }
+                ],
+                'Cylinder': [
+                    { name: 'radius', label: 'Radius', unit: 'units', icon: 'circle' },
+                    { name: 'height', label: 'Height', unit: 'units', icon: 'arrows-alt-v' }
+                ],
+                'Cone': [
+                    { name: 'radius', label: 'Base Radius', unit: 'units', icon: 'circle' },
+                    { name: 'height', label: 'Height', unit: 'units', icon: 'arrows-alt-v' },
+                    { name: 'slantHeight', label: 'Slant Height', unit: 'units', icon: 'ruler-combined' }
+                ],
+                'Cuboid': [
+                    { name: 'length', label: 'Length', unit: 'units', icon: 'arrows-alt-h' },
+                    { name: 'width', label: 'Width', unit: 'units', icon: 'arrows-alt-v' },
+                    { name: 'height', label: 'Height', unit: 'units', icon: 'arrows-alt-v' }
+                ],
+                'Pyramid': [
+                    { name: 'baseLength', label: 'Base Length', unit: 'units', icon: 'arrows-alt-h' },
+                    { name: 'baseWidth', label: 'Base Width', unit: 'units', icon: 'arrows-alt-v' },
+                    { name: 'height', label: 'Height', unit: 'units', icon: 'arrows-alt-v' },
+                    { name: 'slantHeight', label: 'Slant Height', unit: 'units', icon: 'ruler-combined' }
+                ]
+            }
+        };
+
+        // Variables to track current selections
+        let currentShapeType = '2D';
+        let currentShape = '';
+
+        // Toggle dark/light mode
+        function toggleMode() {
+            document.body.classList.toggle('night-mode');
+            document.querySelector('.calculator-card').classList.toggle('night-mode');
+
+            const resultElement = document.getElementById('result');
+            if (resultElement) {
+                resultElement.classList.toggle('night-mode');
+            }
+
+            const modeIcon = document.getElementById('modeToggle');
+            if (modeIcon.classList.contains('fa-moon')) {
+                modeIcon.classList.remove('fa-moon');
+                modeIcon.classList.add('fa-sun');
+            } else {
+                modeIcon.classList.remove('fa-sun');
+                modeIcon.classList.add('fa-moon');
+            }
+        }
+
+        function toggleShapeInputs() {
+            const shapeType = document.querySelector('input[name="shapeType"]:checked').value;
+            currentShapeType = shapeType;
+            currentShape = '';
+
+            document.getElementById('shapes2D').style.display = shapeType === '2D' ? 'flex' : 'none';
+            document.getElementById('shapes3D').style.display = shapeType === '3D' ? 'flex' : 'none';
+
+            document.getElementById('inputsContainer').style.display = 'none';
+            document.getElementById('calculateButton').style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+
+            // Remove 'active' class from all shape-type labels
+            document.querySelectorAll('.two-d-label, .three-d-label').forEach(label => {
+                label.classList.remove('active');
+            });
+
+            // Add 'active' class to the selected shape-type label
+            if (shapeType === '2D') {
+                document.querySelector('.two-d-label').classList.add('active');
+            } else {
+                document.querySelector('.three-d-label').classList.add('active');
+            }
+
+            // Remove selected class from all shape options
+            document.querySelectorAll('.shape-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+
+
+        // Select a shape and show its inputs
+        function selectShape(element, shapeName) {
+            // Clear previous selections
+            document.querySelectorAll('.shape-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Highlight selected shape
+            element.classList.add('selected');
+
+            currentShape = shapeName;
+            showInputs();
+        }
+
+        // Show inputs for the selected shape
+        function showInputs() {
+            if (!currentShape) return;
+
+            const inputsContainer = document.getElementById('inputsContainer');
+            inputsContainer.innerHTML = '';
+
+            const shapeInputs = shapes[currentShapeType][currentShape];
+
+            let html = `<h5 class="mb-3"><i class="fas fa-pencil-ruler mr-2"></i>Enter ${currentShape} Dimensions:</h5>`;
+
+            shapeInputs.forEach(input => {
+                html += `
+          <div class="form-group">
+            <label for="${input.name}"><i class="fas fa-${input.icon} mr-2"></i>${input.label}:</label>
+            <div class="input-group">
+              <input type="number" class="form-control dimension-input" id="${input.name}" placeholder="Enter ${input.label.toLowerCase()}" step="0.01" min="0" required>
+              <div class="input-group-append">
+                <span class="input-group-text">${input.unit}</span>
+              </div>
+            </div>
+          </div>`;
+            });
+
+            inputsContainer.innerHTML = html;
+            inputsContainer.style.display = 'block';
+            document.getElementById('calculateButton').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+
+            // Remove pulse effect after first selection
+            document.getElementById('calculateButton').classList.remove('pulse');
+        }
+
+        // Calculate area/perimeter or volume/surface area
+        function calculate() {
+            // Get all input values
+            const inputs = {};
+            let isValid = true;
+
+            document.querySelectorAll('#inputsContainer input').forEach(input => {
+                const value = parseFloat(input.value);
+                if (isNaN(value) || value <= 0) {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                    inputs[input.id] = value;
+                }
+            });
+
+            if (!isValid) {
+                showPopup('Please enter valid positive numbers for all dimensions.');
+                return;
+            }
+
+            // Calculate based on shape type and name
+            let results = {};
+
+            if (currentShapeType === '2D') {
+                switch (currentShape) {
+                    case 'Circle':
+                        results = {
+                            'Area': (Math.PI * inputs.radius * inputs.radius).toFixed(2) + ' sq. units',
+                            'Perimeter': (2 * Math.PI * inputs.radius).toFixed(2) + ' units',
+                            'Diameter': (2 * inputs.radius).toFixed(2) + ' units'
+                        };
+                        break;
+                    case 'Square':
+                        results = {
+                            'Area': (inputs.side * inputs.side).toFixed(2) + ' sq. units',
+                            'Perimeter': (4 * inputs.side).toFixed(2) + ' units',
+                            'Diagonal': (Math.sqrt(2) * inputs.side).toFixed(2) + ' units'
+                        };
+                        break;
+                    case 'Rectangle':
+                        results = {
+                            'Area': (inputs.length * inputs.width).toFixed(2) + ' sq. units',
+                            'Perimeter': (2 * (inputs.length + inputs.width)).toFixed(2) + ' units',
+                            'Diagonal': (Math.sqrt(Math.pow(inputs.length, 2) + Math.pow(inputs.width, 2))).toFixed(2) + ' units'
+                        };
+                        break;
+                    case 'Triangle':
+                        // Check if triangle is valid
+                        if (inputs.side1 + inputs.side2 <= inputs.side3 ||
+                            inputs.side1 + inputs.side3 <= inputs.side2 ||
+                            inputs.side2 + inputs.side3 <= inputs.side1) {
+                            showPopup('Invalid triangle dimensions. Sum of any two sides must be greater than the third side.');
+                            return;
+                        }
+
+                        const s = (inputs.side1 + inputs.side2 + inputs.side3) / 2;
+                        const area = Math.sqrt(s * (s - inputs.side1) * (s - inputs.side2) * (s - inputs.side3));
+
+                        results = {
+                            'Area': area.toFixed(2) + ' sq. units',
+                            'Perimeter': (inputs.side1 + inputs.side2 + inputs.side3).toFixed(2) + ' units',
+                            'Semi-perimeter': s.toFixed(2) + ' units'
+                        };
+                        break;
+                    case 'Trapezoid':
+                        results = {
+                            'Area': (((inputs.base1 + inputs.base2) * inputs.height) / 2).toFixed(2) + ' sq. units',
+                            'Perimeter': (inputs.base1 + inputs.base2 + inputs.side1 + inputs.side2).toFixed(2) + ' units'
+                        };
+                        break;
+                    case 'Rhombus':
+                        results = {
+                            'Area': ((inputs.diagonal1 * inputs.diagonal2) / 2).toFixed(2) + ' sq. units',
+                            'Perimeter': (4 * inputs.side).toFixed(2) + ' units',
+                            'Height': (inputs.diagonal1 * inputs.diagonal2 / (2 * inputs.side)).toFixed(2) + ' units'
+                        };
+                        break;
+                    default:
+                        showPopup('Please select a valid 2D shape.');
+                        return;
+                }
+            } else { // 3D shapes
+                switch (currentShape) {
+                    case 'Cube':
+                        results = {
+                            'Volume': (Math.pow(inputs.side, 3)).toFixed(2) + ' cubic units',
+                            'Surface Area': (6 * Math.pow(inputs.side, 2)).toFixed(2) + ' sq. units',
+                            'Diagonal': (Math.sqrt(3) * inputs.side).toFixed(2) + ' units'
+                        };
+                        break;
+                    case 'Sphere':
+                        results = {
+                            'Volume': ((4 / 3) * Math.PI * Math.pow(inputs.radius, 3)).toFixed(2) + ' cubic units',
+                            'Surface Area': (4 * Math.PI * Math.pow(inputs.radius, 2)).toFixed(2) + ' sq. units',
+                            'Diameter': (2 * inputs.radius).toFixed(2) + ' units'
+                        };
+                        break;
+                    case 'Cylinder':
+                        results = {
+                            'Volume': (Math.PI * Math.pow(inputs.radius, 2) * inputs.height).toFixed(2) + ' cubic units',
+                            'Surface Area': (2 * Math.PI * inputs.radius * (inputs.radius + inputs.height)).toFixed(2) + ' sq. units',
+                            'Lateral Surface Area': (2 * Math.PI * inputs.radius * inputs.height).toFixed(2) + ' sq. units'
+                        };
+                        break;
+                    case 'Cone':
+                        if (!inputs.slantHeight) {
+                            inputs.slantHeight = Math.sqrt(Math.pow(inputs.radius, 2) + Math.pow(inputs.height, 2));
+                        }
+                        results = {
+                            'Volume': ((1 / 3) * Math.PI * Math.pow(inputs.radius, 2) * inputs.height).toFixed(2) + ' cubic units',
+                            'Surface Area': (Math.PI * inputs.radius * (inputs.radius + inputs.slantHeight)).toFixed(2) + ' sq. units',
+                            'Lateral Surface Area': (Math.PI * inputs.radius * inputs.slantHeight).toFixed(2) + ' sq. units'
+                        };
+                        break;
+                    case 'Cuboid':
+                        results = {
+                            'Volume': (inputs.length * inputs.width * inputs.height).toFixed(2) + ' cubic units',
+                            'Surface Area': (2 * (inputs.length * inputs.width + inputs.length * inputs.height + inputs.width * inputs.height)).toFixed(2) + ' sq. units',
+                            'Diagonal': (Math.sqrt(Math.pow(inputs.length, 2) + Math.pow(inputs.width, 2) + Math.pow(inputs.height, 2))).toFixed(2) + ' units'
+                        };
+                        break;
+                    case 'Pyramid':
+                        const baseArea = inputs.baseLength * inputs.baseWidth;
+                        const perimeter = 2 * (inputs.baseLength + inputs.baseWidth);
+                        if (!inputs.slantHeight) {
+                            inputs.slantHeight = Math.sqrt(Math.pow(inputs.height, 2) + Math.pow(inputs.baseLength / 2, 2));
+                        }
+                        results = {
+                            'Volume': ((1 / 3) * baseArea * inputs.height).toFixed(2) + ' cubic units',
+                            'Surface Area': (baseArea + ((perimeter * inputs.slantHeight) / 2)).toFixed(2) + ' sq. units',
+                            'Base Area': baseArea.toFixed(2) + ' sq. units'
+                        };
+                        break;
+                    default:
+                        showPopup('Please select a valid 3D shape.');
+                        return;
+                }
+            }
+
+            // Display the results
+            let resultHTML = '<h5 class="result-title"><i class="fas fa-check mr-2"></i>Results:</h5>';
+            for (const key in results) {
+                resultHTML += `<div class="result-item"><span>${key}:</span><span class="result-value">${results[key]}</span></div>`;
+            }
+            document.getElementById('result').innerHTML = resultHTML;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poTn3wWv+0ZbE6Ck/rfQ7841e5e1jvYbVYUew+OrCXaRkfj"
+        integrity="sha384-J6qa4849blE2+poTnnH2oFad/hSleq0nqE3aJp/aZB0EVG+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-6J8jN9AwhQZxYz5S4q8V3V8WZ1y/qSfhFvD1Y/ztZFL1Fj4J4x5Rmjp6QFz9Qb8x"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
 </body>
 
 </html>
