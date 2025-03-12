@@ -399,34 +399,34 @@
 
                 <div id="shapes2D" class="shape-selection">
                     <div class="shape-option" onclick="selectShape(this, 'Circle')">
-                        <!-- <i class="fas fa-circle shape-icon-large"></i> -->
+                        <i class="fas fa-circle shape-icon-large d-none"></i>
                         <img src="./img/circle.png" class="shape-img-large" alt="Circle">
                         <span class="shape-name">Circle</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Square')">
-                        <!-- <i class="fas fa-square shape-icon-large"></i> -->
+                        <i class="fas fa-square shape-icon-large d-none"></i>
                         <img src="./img/square.png" class="shape-img-large" alt="Square">
                         <span class="shape-name">Square</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Rectangle')">
-                        <!-- <i class="fas fa-rectangle-wide shape-icon-large"></i> -->
-                        <!-- <i class="fas fa-border-all shape-icon-large"></i> -->
+                        <!-- <i class="fas fa-rectangle-wide shape-icon-large d-none"></i> -->
+                        <i class="fas fa-border-all shape-icon-large d-none"></i>
                         <img src="./img/rectangle.png" class="shape-img-large" alt="Rectangle">
                         <span class="shape-name">Rectangle</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Triangle')">
-                        <!-- <i class="fas fa-triangle shape-icon-large"></i> -->
-                        <!-- <i class="fas fa-play shape-icon-large" style="transform: rotate(270deg);"></i> -->
+                        <!-- <i class="fas fa-triangle shape-icon-large d-none"></i> -->
+                        <i class="fas fa-play shape-icon-large d-none" style="transform: rotate(270deg);"></i>
                         <img src="./img/triangle.png" class="shape-img-large" alt="Triangle">
                         <span class="shape-name">Triangle</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Trapezoid')">
-                        <!-- <i class="fas fa-draw-polygon shape-icon-large"></i> -->
+                        <i class="fas fa-draw-polygon shape-icon-large d-none"></i>
                         <img src="./img/trapezoid.png" class="shape-img-large" alt="Trapezoid">
                         <span class="shape-name">Trapezoid</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Rhombus')">
-                        <!-- <i class="fas fa-diamond shape-icon-large"></i> -->
+                        <i class="fas fa-diamond shape-icon-large d-none"></i>
                         <img src="./img/rhombus.png" class="shape-img-large" alt="Rhombus">
                         <span class="shape-name">Rhombus</span>
                     </div>
@@ -434,32 +434,32 @@
 
                 <div id="shapes3D" class="shape-selection" style="display: none;">
                     <div class="shape-option" onclick="selectShape(this, 'Cube')">
-                        <!-- <i class="fas fa-cube shape-icon-large"></i> -->
+                        <i class="fas fa-cube shape-icon-large d-none"></i>
                         <img src="./img/cube.png" class="shape-img-large" alt="Cube">
                         <span class="shape-name">Cube</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Sphere')">
-                        <!-- <i class="fas fa-globe shape-icon-large"></i> -->
+                        <i class="fas fa-globe shape-icon-large d-none"></i>
                         <img src="./img/globe.png" class="shape-img-large" alt="Sphere">
                         <span class="shape-name">Sphere</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Cylinder')">
-                        <!-- <i class="fas fa-database shape-icon-large"></i> -->
+                        <i class="fas fa-database shape-icon-large d-none"></i>
                         <img src="./img/cylinder.png" class="shape-img-large" alt="Cylinder">
                         <span class="shape-name">Cylinder</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Cone')">
-                        <!-- <i class="fas fa-filter shape-icon-large"></i> -->
+                        <i class="fas fa-filter shape-icon-large d-none"></i>
                         <img src="./img/cone.png" class="shape-img-large" alt="Cone">
                         <span class="shape-name">Cone</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Cuboid')">
-                        <!-- <i class="fas fa-box shape-icon-large"></i> -->
+                        <i class="fas fa-box shape-icon-large d-none"></i>
                         <img src="./img/cuboid.png" class="shape-img-large" alt="Cuboid">
                         <span class="shape-name">Cuboid</span>
                     </div>
                     <div class="shape-option" onclick="selectShape(this, 'Pyramid')">
-                        <!-- <i class="fas fa-monument shape-icon-large"></i> -->
+                        <i class="fas fa-monument shape-icon-large d-none"></i>
                         <img src="./img/pyramid-chart.png" class="shape-img-large" alt="Pyramid">
                         <span class="shape-name">Pyramid</span>
                     </div>
@@ -573,9 +573,23 @@
             if (modeIcon.classList.contains('fa-moon')) {
                 modeIcon.classList.remove('fa-moon');
                 modeIcon.classList.add('fa-sun');
+
+                document.querySelectorAll('.shape-icon-large').forEach(label => {
+                    label.classList.remove('d-none');
+                });
+                document.querySelectorAll('.shape-img-large').forEach(label => {
+                    label.classList.add('d-none');
+                });
             } else {
                 modeIcon.classList.remove('fa-sun');
                 modeIcon.classList.add('fa-moon');
+
+                document.querySelectorAll('.shape-icon-large').forEach(label => {
+                    label.classList.add('d-none');
+                });
+                document.querySelectorAll('.shape-img-large').forEach(label => {
+                    label.classList.remove('d-none');
+                });
             }
         }
 
