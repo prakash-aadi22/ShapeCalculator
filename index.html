@@ -370,6 +370,115 @@
             opacity: 1;
             transition: opacity 0.5s ease;
         }
+
+        .portfolio-btn {
+            margin: 25px;
+            position: relative;
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24, #ff9ff3, #54a0ff);
+            background-size: 300% 300%;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 2px solid transparent;
+            font-family: Arial, sans-serif;
+        }
+
+        .portfolio-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24, #ff9ff3, #54a0ff);
+            background-size: 300% 300%;
+            border-radius: 50px;
+            z-index: -1;
+            transition: all 0.4s ease;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .portfolio-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .portfolio-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+            text-decoration: none !important;
+            color: white !important;
+        }
+
+        .portfolio-btn:hover::before {
+            animation-duration: 0.5s;
+        }
+
+        .portfolio-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .portfolio-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .btn-text {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-btn:hover .btn-icon {
+            transform: translateX(5px);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-btn {
+                padding: 16px 32px;
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 
@@ -476,6 +585,13 @@
             </div>
         </div>
     </div>
+
+    <a href="https://aditya-prakash-portfolio.vercel.app/" class="portfolio-btn" target="_blank">
+        <span class="btn-text">
+            View Portfolio
+            <span class="btn-icon">→</span>
+        </span>
+    </a>
 
     <script>
         // Function to display a custom pop-up message
